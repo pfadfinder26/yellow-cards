@@ -1,0 +1,17 @@
+<?php
+// Cards extension, https://github.com/pfadfinder26/yellow-cards
+// Based on Datenstrom Yellow, https://datenstrom.se/yellow/
+list($name, $page, $type) = $this->yellow->getLayoutArguments();
+$location = $page->getLocation(true);
+$image = $page->get("image");
+$fileLocationImage = substru($image, 0, 1)!="/" ?
+    $this->yellow->page->getBase().$this->yellow->system->get("coreImageLocation").$image :
+    $this->yellow->page->getBase().$image;
+?>
+<div class="card">
+<?php if (!is_string_empty($image)): ?>
+<a href="<?php echo $location ?>" tabindex="-1" aria-hidden="true"><img src="<?php echo htmlspecialchars($fileLocationImage) ?>" alt="" /></a>
+<?php endif ?>
+<h3><a href="<?php echo $location ?>"><?php echo $page->getHtml("title") ?></a></h3>
+<p><?php echo $page->getHtml("description") ?></p>
+</div>
