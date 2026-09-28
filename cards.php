@@ -3,7 +3,7 @@
 // Based on Datenstrom Yellow, https://datenstrom.se/yellow/
 
 class YellowCards {
-    const VERSION = "0.1.1";
+    const VERSION = "0.2.0";
     public $yellow;         // access to API
     public $depth;          // nesting level, a card within a card
 
@@ -31,7 +31,7 @@ class YellowCards {
             } else {
                 $pages = $this->yellow->content->getChildren($location, $showUnlisted);
                 if ($this->yellow->content->find($location)===null) return $this->getErrorHtml($location);
-                $pages = $this->getPagesSelected($pages, $filters);
+                $pages = $this->getPagesSelected($pages, $filters, in_array("scheduled", $options));
                 $output = "<div class=\"cards\">\n";
                 foreach ($pages as $pageCard) {
                     $output .= $this->getCardHtml($pageCard, $template, $options);
@@ -43,9 +43,11 @@ class YellowCards {
     }
 
     // Return the pages of a card row, filtered, sorted and limited
-    public function getPagesSelected($pages, $filters) {
+    // a page with a publication date in the future waits for that date
+    public function getPagesSelected($pages, $filters, $showScheduled = false) {
         $selected = new YellowPageCollection($this->yellow);
         foreach ($pages as $pageCard) {
+            if (!$showScheduled && $this->isScheduled($pageCard)) continue;
             if ($this->isMatchingAll($pageCard, $filters)) $selected->append($pageCard);
         }
         foreach ($filters as $filter) {
@@ -54,6 +56,12 @@ class YellowCards {
             if ($key=="limit" && is_numeric($value)) $selected->limit(intval($value));
         }
         return $selected;
+    }
+
+    // Check if a page is not published yet
+    public function isScheduled($pageCard) {
+        $published = $pageCard->get("published");
+        return !is_string_empty($published) && strtotime($published)>time();
     }
 
     // Check if a page matches all filters, written as setting:value

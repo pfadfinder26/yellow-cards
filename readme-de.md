@@ -1,4 +1,4 @@
-# Cards 0.1.1
+# Cards 0.2.0
 
 Macht Karten aus Seiten und ihren Einstellungen. Entwickelt von Liam Perlaki.
 
@@ -54,6 +54,9 @@ zum Beispiel `[cards /stufen/ stufe link]`, dort macht die Vorlage der Beispiels
 zum Link auf diese Seite, eine Mailadresse darin bleibt trotzdem anklickbar. Eine Option
 behandelt die Erweiterung selbst: `unlisted` nimmt auch die Seiten mit `Status: unlisted` mit, so
 kann eine Stufe, die nicht im Menü steht, trotzdem in einer Übersicht erscheinen.
+
+**Seiten, die warten:** eine Seite, deren `Published`-Datum noch bevorsteht, bleibt bis dahin aus
+den Kartenreihen. Die Option `scheduled` nimmt sie mit, für eine Reihe, die zeigt, was kommt.
 
 **Versteckte Seiten:** eine Seite mit `Status: unlisted` steht nicht im Menü und in keiner
 Kartenreihe, sie ist aber weiterhin erreichbar. So wird ein Ordner voller Seiten zu einer kleinen

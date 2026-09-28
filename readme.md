@@ -1,4 +1,4 @@
-# Cards 0.1.1
+# Cards 0.2.0
 
 Make cards from pages and their settings. Developed by Liam Perlaki.
 
@@ -53,6 +53,9 @@ for example `[cards /stufen/ stufe link]`, where the demo template makes the who
 that page, while a mail address inside it stays clickable. One option is handled
 by the extension itself: `unlisted` also takes the pages that are `Status: unlisted`, so a section
 that is out of the menu can still appear in an overview.
+
+**Pages that wait:** a page whose `Published` date is still ahead stays out of the card rows until
+that day. The option `scheduled` takes those pages along, for a row that shows what is coming.
 
 **Hidden pages:** a page with `Status: unlisted` stays out of the navigation and out of card rows,
 but it can still be found. That makes a folder of pages a small database, for example one page per
