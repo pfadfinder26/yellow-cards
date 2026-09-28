@@ -1,4 +1,4 @@
-# Cards 0.2.0
+# Cards 0.2.2
 
 Macht Karten aus Seiten und ihren Einstellungen. Entwickelt von Liam Perlaki.
 
@@ -56,7 +56,11 @@ behandelt die Erweiterung selbst: `unlisted` nimmt auch die Seiten mit `Status: 
 kann eine Stufe, die nicht im Menü steht, trotzdem in einer Übersicht erscheinen.
 
 **Seiten, die warten:** eine Seite, deren `Published`-Datum noch bevorsteht, bleibt bis dahin aus
-den Kartenreihen. Die Option `scheduled` nimmt sie mit, für eine Reihe, die zeigt, was kommt.
+den Kartenreihen. Die Option `scheduled` nimmt sie mit und stellt sie ans Ende der Reihe, das
+nächste Datum zuerst, damit eine Reihe von Neuigkeiten von heute in das führt, was kommt.
+
+**Eine Reihe, die scrollt:** die Option `scroll` kennzeichnet eine Reihe, die seitlich scrollt,
+statt umzubrechen, `<div class="cards cards-scroll">`. Wie das aussieht, entscheidet das Theme.
 
 **Versteckte Seiten:** eine Seite mit `Status: unlisted` steht nicht im Menü und in keiner
 Kartenreihe, sie ist aber weiterhin erreichbar. So wird ein Ordner voller Seiten zu einer kleinen

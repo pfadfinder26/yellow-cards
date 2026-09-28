@@ -3,7 +3,7 @@
 // Based on Datenstrom Yellow, https://datenstrom.se/yellow/
 
 class YellowCards {
-    const VERSION = "0.2.0";
+    const VERSION = "0.2.2";
     public $yellow;         // access to API
     public $depth;          // nesting level, a card within a card
 
@@ -32,7 +32,8 @@ class YellowCards {
                 $pages = $this->yellow->content->getChildren($location, $showUnlisted);
                 if ($this->yellow->content->find($location)===null) return $this->getErrorHtml($location);
                 $pages = $this->getPagesSelected($pages, $filters, in_array("scheduled", $options));
-                $output = "<div class=\"cards\">\n";
+                $class = in_array("scroll", $options) ? "cards cards-scroll" : "cards";
+                $output = "<div class=\"".$class."\">\n";
                 foreach ($pages as $pageCard) {
                     $output .= $this->getCardHtml($pageCard, $template, $options);
                 }
@@ -53,9 +54,31 @@ class YellowCards {
         foreach ($filters as $filter) {
             list($key, $value) = $this->yellow->toolbox->getTextList($filter, ":", 2);
             if ($key=="sort" && !is_string_empty($value)) $selected->sort($value, false);
+        }
+        if ($showScheduled) $selected = $this->getPagesAhead($selected);
+        foreach ($filters as $filter) {
+            list($key, $value) = $this->yellow->toolbox->getTextList($filter, ":", 2);
             if ($key=="limit" && is_numeric($value)) $selected->limit(intval($value));
         }
         return $selected;
+    }
+
+    // Return the pages with the ones that are not published yet at the end, the nearest first
+    public function getPagesAhead($pages) {
+        $published = new YellowPageCollection($this->yellow);
+        $ahead = array();
+        foreach ($pages as $pageCard) {
+            if ($this->isScheduled($pageCard)) {
+                $ahead[] = $pageCard;
+            } else {
+                $published->append($pageCard);
+            }
+        }
+        usort($ahead, function ($a, $b) {
+            return strtotime($a->get("published"))<=>strtotime($b->get("published"));
+        });
+        foreach ($ahead as $pageCard) $published->append($pageCard);
+        return $published;
     }
 
     // Check if a page is not published yet
