@@ -3,7 +3,7 @@
 // Based on Datenstrom Yellow, https://datenstrom.se/yellow/
 
 class YellowCards {
-    const VERSION = "0.2.2";
+    const VERSION = "0.2.3";
     public $yellow;         // access to API
     public $depth;          // nesting level, a card within a card
 
@@ -63,22 +63,23 @@ class YellowCards {
         return $selected;
     }
 
-    // Return the pages with the ones that are not published yet at the end, the nearest first
+    // Return the pages with the ones that are not published yet in front, the nearest date last,
+    // so a row reads from what is furthest ahead through today into the past
     public function getPagesAhead($pages) {
-        $published = new YellowPageCollection($this->yellow);
-        $ahead = array();
+        $selected = new YellowPageCollection($this->yellow);
+        $ahead = $rest = array();
         foreach ($pages as $pageCard) {
             if ($this->isScheduled($pageCard)) {
                 $ahead[] = $pageCard;
             } else {
-                $published->append($pageCard);
+                $rest[] = $pageCard;
             }
         }
         usort($ahead, function ($a, $b) {
-            return strtotime($a->get("published"))<=>strtotime($b->get("published"));
+            return strtotime($b->get("published"))<=>strtotime($a->get("published"));
         });
-        foreach ($ahead as $pageCard) $published->append($pageCard);
-        return $published;
+        foreach (array_merge($ahead, $rest) as $pageCard) $selected->append($pageCard);
+        return $selected;
     }
 
     // Check if a page is not published yet

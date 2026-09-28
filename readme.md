@@ -1,4 +1,4 @@
-# Cards 0.2.2
+# Cards 0.2.3
 
 Make cards from pages and their settings. Developed by Liam Perlaki.
 
@@ -55,8 +55,8 @@ by the extension itself: `unlisted` also takes the pages that are `Status: unlis
 that is out of the menu can still appear in an overview.
 
 **Pages that wait:** a page whose `Published` date is still ahead stays out of the card rows until
-that day. The option `scheduled` takes those pages along and puts them at the end of the row, the
-nearest date first, so a row of news reads from today into what is coming.
+that day. The option `scheduled` takes those pages along and puts them in front of the row, the
+furthest date first, so a row of news reads from what is coming through today into the past.
 
 **A row that scrolls:** the option `scroll` marks a row as one that scrolls sideways instead of
 wrapping, `<div class="cards cards-scroll">`. What that looks like is up to the theme.
